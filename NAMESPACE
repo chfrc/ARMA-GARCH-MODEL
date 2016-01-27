@@ -1,0 +1,4 @@
+
+exportPattern("^[[:alpha:]]+")
+import(xts, quantmod, rugarch, PerformanceAnalytics, latticeExtra)
+

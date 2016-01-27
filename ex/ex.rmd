@@ -1,0 +1,52 @@
+---
+title: "example"
+author: "YANG, Ze"
+date: "January 20, 2016"
+output: pdf_document
+---
+
+##1. Data Set
+```{r}
+library(zgarchArb)
+raw = rawIFC1
+head(raw)
+data = windM1Data()
+str(data)
+```
+
+
+##2.1 Rolling ARMA-GARCH Model - Basis Spread
+
+```{r}
+basis = tail(data$basis,10000)
+zg.basis = zGARCHsignal(basis, 2000, 1000)
+zg.summary = summary(zg.basis)
+```
+### Arb Signals
+```{r}
+zg.summary$plot.signal
+```
+### Equity Curve
+```{r}
+chartSeries(zg.summary$df$equity.curve, theme = chartTheme('white'))
+```
+
+##2.2 Rolling ARMA-GARCH Model - Calendar Spread
+
+```{r}
+diff = tail(data$diff,10000) 
+zg.diff = zGARCHsignal(diff, 2000, 1000)
+zg.summary.2 = summary(zg.diff)
+```
+### Arb Signals
+```{r}
+zg.summary.2$plot.signal
+```
+### Equity Curve
+```{r}
+chartSeries(zg.summary.2$df$equity.curve, theme = chartTheme('white'))
+```
+
+## 3 Backtest on Longer Horizon (Parallel Computation)
+
+
